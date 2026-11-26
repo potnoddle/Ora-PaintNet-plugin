@@ -11,13 +11,15 @@ if (-not $isAdmin) {
 $ProjectDir = $PSScriptRoot
 $PdnFileTypesDir = "C:\Program Files\paint.net\FileTypes"
 
-# Candidate build output locations for Debug and Release
+# Candidate build output locations for Debug and Release (supports AnyCPU, ARM64, and x64)
 $CandidateReleaseDirs = @(
+    (Join-Path $ProjectDir "bin\Release\net9.0-windows\win-arm64"),
     (Join-Path $ProjectDir "bin\Release\net9.0-windows\win-x64"),
     (Join-Path $ProjectDir "bin\Release\net9.0-windows"),
     (Join-Path $ProjectDir "bin\Release")
 )
 $CandidateDebugDirs = @(
+    (Join-Path $ProjectDir "bin\Debug\net9.0-windows\win-arm64"),
     (Join-Path $ProjectDir "bin\Debug\net9.0-windows\win-x64"),
     (Join-Path $ProjectDir "bin\Debug\net9.0-windows"),
     (Join-Path $ProjectDir "bin\Debug")
@@ -103,6 +105,20 @@ try {
     if (Test-Path $targetPdb) {
         Copy-Item -Path $targetPdb -Destination $PdnFileTypesDir -Force -ErrorAction SilentlyContinue
         Write-Host "Copied OpenRasterFileType.pdb for debugging." -ForegroundColor Gray
+    }
+
+    # Also update user profile plugin folder if present
+    $userDocs = [Environment]::GetFolderPath('MyDocuments')
+    $userFileTypesDir = Join-Path $userDocs "paint.net App Files\FileTypes"
+    if (Test-Path (Join-Path $userDocs "paint.net App Files")) {
+        if (-not (Test-Path $userFileTypesDir)) {
+            New-Item -ItemType Directory -Path $userFileTypesDir -Force | Out-Null
+        }
+        Copy-Item -Path $targetDll -Destination $userFileTypesDir -Force -ErrorAction SilentlyContinue
+        if (Test-Path $targetPdb) {
+            Copy-Item -Path $targetPdb -Destination $userFileTypesDir -Force -ErrorAction SilentlyContinue
+        }
+        Write-Host "Also copied to user plugin folder: $userFileTypesDir" -ForegroundColor Green
     }
     
     # Check if Paint.NET is currently running and warn the user
