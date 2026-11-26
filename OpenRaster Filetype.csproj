@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net9.0-windows</TargetFramework>
+    <OutputType>Library</OutputType>
+    <RootNamespace>OpenRasterFileType</RootNamespace>
+    <AssemblyName>OpenRasterFileType</AssemblyName>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Authors>potnoddle</Authors>
+    <Version>2025.11.16</Version>
+    <AssemblyVersion>2025.11.16</AssemblyVersion>
+    <FileVersion>2025.11.16</FileVersion>
+    <Description>OpenRaster plugin for paint.net</Description>
+    <RepositoryUrl>https://github.com/potnoddle/Ora-PaintNet-plugin</RepositoryUrl>
+  </PropertyGroup>
+  <Target Name="PostBuild" AfterTargets="Build">
+    <Exec Command="xcopy /Y /R &quot;$(TargetPath)&quot; &quot;C:\Program Files\Paint.NET\FileTypes\&quot;" Condition="Exists('C:\Program Files\Paint.NET\FileTypes')" IgnoreExitCode="true" />
+  </Target>
+  <ItemGroup>
+    <SupportedPlatform Include="windows" />
+    <Reference Include="PaintDotNet.Base">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\Paint.NET\PaintDotNet.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="PaintDotNet.Core">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\Paint.NET\PaintDotNet.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="PaintDotNet.Data">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\Paint.NET\PaintDotNet.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="PaintDotNet.Effects">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\Paint.NET\PaintDotNet.Effects.dll</HintPath>
+    </Reference>
+    <Reference Include="PaintDotNet.Primitives">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\Paint.NET\PaintDotNet.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="PaintDotNet.ComponentModel">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\Paint.NET\PaintDotNet.ComponentModel.dll</HintPath>
+    </Reference>
+    <PackageReference Include="System.Drawing.Common" Version="9.0.1" />
+    <PackageReference Include="System.IO.Compression" Version="4.3.0" />
+  </ItemGroup>
+</Project>
