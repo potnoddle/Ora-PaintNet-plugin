@@ -54,17 +54,21 @@ if ($latestReleaseDir -and $latestDebugDir) {
     if ($releaseTime -gt $debugTime) {
         $SourceDir = $latestReleaseDir
         $config = "Release"
-    } else {
+    }
+    else {
         $SourceDir = $latestDebugDir
         $config = "Debug"
     }
-} elseif ($latestReleaseDir) {
+}
+elseif ($latestReleaseDir) {
     $SourceDir = $latestReleaseDir
     $config = "Release"
-} elseif ($latestDebugDir) {
+}
+elseif ($latestDebugDir) {
     $SourceDir = $latestDebugDir
     $config = "Debug"
-} else {
+}
+else {
     Write-Host "No compiled OpenRasterFileType.dll found in bin\Release\ or bin\Debug\" -ForegroundColor Red
     Write-Host "Please build the project first by running: dotnet build" -ForegroundColor Yellow
     Read-Host "Press Enter to exit"
@@ -78,7 +82,8 @@ if (-not (Test-Path $PdnFileTypesDir)) {
     if (Test-Path $pdnBase) {
         try {
             New-Item -ItemType Directory -Path $PdnFileTypesDir -Force | Out-Null
-        } catch { }
+        }
+        catch { }
     }
 }
 
@@ -126,7 +131,8 @@ try {
     if ($pdnProcess) {
         Write-Host "Warning: Paint.NET is currently running. You will need to restart it for changes to take effect." -ForegroundColor Yellow
     }
-} catch {
+}
+catch {
     Write-Host "Error copying file: $_" -ForegroundColor Red
 }
 
